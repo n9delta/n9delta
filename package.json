@@ -1,0 +1,19 @@
+{
+  "name": "n9delta-1",
+  "version": "1.0.0",
+  "description": "a cool discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/n9delta/n9delta.git"
+  },
+  "author": "n9delta",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/n9delta/n9delta/issues"
+  },
+  "homepage": "https://github.com/n9delta/n9delta#readme"
+}
