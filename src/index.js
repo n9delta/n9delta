@@ -24,29 +24,24 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-// ОДИН раз при старте клиент сообщить об этом в консоль
-client.once('ready', () => {
-	console.log('Ready!');
-});
+// Создание коллекции с эвентами и добавлением всех эвентов из ./events
+client.events = new Collection();
 
-// Обработчик взаимодействий
-client.on('interactionCreate', async i => {
-	if (!i.isCommand()) return;
+const eventsPath = path.join(__dirname, 'events');
+const eventsFiles = fs
+	.readdirSync(eventsPath)
+	.filter(file => file.endsWith('js'));
 
-	const command = client.commands.get(i.commandName);
+for (const file of eventsFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
 
-	if (!command) return;
-
-	try {
-		await command.execute(i);
-	} catch (error) {
-		console.error(error);
-		await i.reply({
-			content: 'Неизвестная ошибка, свяжитесь с администратором!',
-			ephemeral: true,
-		});
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args, client));
 	}
-});
+}
 
 // Подключение к дискорду
 client.login(process.env.TOKEN);

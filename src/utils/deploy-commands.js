@@ -7,14 +7,13 @@ const { clientId, supportGuildId } = require('../../config.json');
 const token = process.env.TOKEN;
 
 const commands = [];
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(__dirname, '../commands');
 const commandFiles = fs
 	.readdirSync(commandsPath)
 	.filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const filePath = path.join(commandsPath, file);
-	const command = require(filePath);
+	const command = require(`./../commands/${file}`);
 	commands.push(command.data.toJSON());
 }
 
